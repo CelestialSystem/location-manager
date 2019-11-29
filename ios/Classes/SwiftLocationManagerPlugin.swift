@@ -19,57 +19,39 @@ public class SwiftLocationManagerPlugin: NSObject {
     private var geofenceEventQueue: [[AnyHashable : AnyHashable]] = [[:]]
     
     init(_ registrar: FlutterPluginRegistrar?) {
-        print("init(_ registrar: FlutterPluginRegistrar?) Called")
+        print("Initializing Plugin")
         super.init()
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager?.distanceFilter = 0.01
+        locationManager?.distanceFilter = 0.1
         locationManager?.pausesLocationUpdatesAutomatically = false
         if #available(iOS 9.0, *) {
             locationManager?.allowsBackgroundLocationUpdates = true
         }
-        
         headlessRunner = FlutterEngine(name: "LocationManagerIsolate", project: nil, allowHeadlessExecution: true)
-        
-        print("headless add \(headlessRunner == nil)")
         self.registrarInstance = registrar
-        
         mainChannel = FlutterMethodChannel(name: Constants.FOREGROUND_CHANNEL_ID, binaryMessenger: (registrar?.messenger())!)
         registrar?.addMethodCallDelegate(self, channel: mainChannel!)
         callbackChannel = FlutterMethodChannel(name: Constants.BACKGROUND_CHANNEL_ID, binaryMessenger: (headlessRunner?.binaryMessenger)!)
-        print("init(_ registrar: FlutterPluginRegistrar?) Completed")
     }
     
     func startHeadlesService(_ handle: Int64) {
-        print("startHeadlesService(_ handle: Int64) Called")
+        print("Starting HeadlesService")
         setCallbackDispatcherHandle(handle)
-        print("Call Back Set")
         let info = FlutterCallbackCache.lookupCallbackInformation(handle)
-        print("Info Set")
         assert(info != nil, "Failed to find callback")
-        print("Info not nil")
-        let entrypoint = info?.callbackName
-        print("callback name found: \(entrypoint)")
-        let uri = info?.callbackLibraryPath
-        print("Uri Found: \(uri)")
-        print("headless add \(headlessRunner == nil)")
-        headlessRunner?.run(withEntrypoint: entrypoint, libraryURI: uri)
-        print("headless add \(headlessRunner == nil)")
+        headlessRunner?.run(withEntrypoint: info?.callbackName, libraryURI: info?.callbackLibraryPath)
         assert(registerPlugins != nil, "Failed to set registerPlugins")
         
         // Once our headless runner has been started, we need to register the application's plugins
         // with the runner in order for them to work on the background isolate. `registerPlugins` is
         // a callback set from AppDelegate.m in the main application. This callback should register
         // all relevant plugins (excluding those which require UI).
-         print("registerPlugins not nil")
         registerPlugins?(headlessRunner!)
-        print("registerPlugins runner added")
         registrarInstance?.addMethodCallDelegate(self, channel: callbackChannel!)
-        print("startHeadlesService(_ handle: Int64) Completed")
     }
     
-    // https://medium.com/@calvinlin_96474/ios-11-continuous-background-location-update-by-swift-4-12ce3ac603e3 Re-open Application
     private func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("Application Launched because of : \(String(describing: launchOptions))")
         // Check to see if we're being launched due to a location event.
@@ -98,19 +80,18 @@ public class SwiftLocationManagerPlugin: NSObject {
 extension SwiftLocationManagerPlugin: FlutterPlugin{
     
     public class func register(with registrar: FlutterPluginRegistrar) {
-        print("register(with registrar: FlutterPluginRegistrar) Called")
-        if instance == nil {
-            instance = SwiftLocationManagerPlugin(registrar)
-            registrar.addApplicationDelegate(instance!)
-        }
+        print("Registering Registrar")
+        instance = SwiftLocationManagerPlugin(registrar)
+        registrar.addApplicationDelegate(instance!)
     }
     
     public class func setPluginRegistrantCallback(_ callback: @escaping FlutterPluginRegistrantCallback) {
-        print("setPluginRegistrantCallback(_ callback: @escaping FlutterPluginRegistrantCallback) Called")
+        print("Registering Plugin Callback")
         registerPlugins = callback
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        print("Handle Dart Method \(call.method)")
         let arguments = call.arguments as? [String: Any]
         switch call.method {
         case Constants.METHOD_SERVICE_INITIALIZED:
