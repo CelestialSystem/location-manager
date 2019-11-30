@@ -29,11 +29,10 @@ public class SwiftLocationManagerPlugin: NSObject {
         if #available(iOS 9.0, *) {
             locationManager?.allowsBackgroundLocationUpdates = true
         }
-        headlessRunner = FlutterEngine(name: "LocationManagerIsolate", project: nil, allowHeadlessExecution: true)
         self.registrarInstance = registrar
         mainChannel = FlutterMethodChannel(name: Constants.FOREGROUND_CHANNEL_ID, binaryMessenger: (registrar?.messenger())!)
         registrar?.addMethodCallDelegate(self, channel: mainChannel!)
-        callbackChannel = FlutterMethodChannel(name: Constants.BACKGROUND_CHANNEL_ID, binaryMessenger: (headlessRunner?.binaryMessenger)!)
+        
     }
     
     func startHeadlesService(_ handle: Int64) {
@@ -41,7 +40,10 @@ public class SwiftLocationManagerPlugin: NSObject {
         setCallbackDispatcherHandle(handle)
         let info = FlutterCallbackCache.lookupCallbackInformation(handle)
         assert(info != nil, "Failed to find callback")
+        headlessRunner?.destroyContext();
+        headlessRunner = FlutterEngine(name: "LocationManagerIsolate", project: nil, allowHeadlessExecution: true)
         headlessRunner?.run(withEntrypoint: info?.callbackName, libraryURI: info?.callbackLibraryPath)
+        callbackChannel = FlutterMethodChannel(name: Constants.BACKGROUND_CHANNEL_ID, binaryMessenger: (headlessRunner?.binaryMessenger)!)
         assert(registerPlugins != nil, "Failed to set registerPlugins")
         
         // Once our headless runner has been started, we need to register the application's plugins
