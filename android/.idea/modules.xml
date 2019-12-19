@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../example/android/android.iml" filepath="$PROJECT_DIR$/../example/android/android.iml" />
       <module fileurl="file://$PROJECT_DIR$/../example/android/app/app.iml" filepath="$PROJECT_DIR$/../example/android/app/app.iml" />
+      <module fileurl="file://$USER_HOME$/Library/MobileDevelopment/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.8.4/android/flutter_local_notifications.iml" filepath="$USER_HOME$/Library/MobileDevelopment/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.8.4/android/flutter_local_notifications.iml" />
       <module fileurl="file://$PROJECT_DIR$/location_manager.iml" filepath="$PROJECT_DIR$/location_manager.iml" />
     </modules>
   </component>
