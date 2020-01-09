@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a47650e7-7543-4d3f-bec7-b0adcf895580" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/example_lib_main_dart.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/example_lib_main_dart.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/celestialsys/location_manager/LocationUpdatesIntentService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/celestialsys/location_manager/LocationUpdatesIntentService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/caches/build_file_checksums.ser" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +27,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="e901c300" />
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/location_manager.dart">
           <provider selected="true" editor-type-id="text-editor">
@@ -103,6 +102,38 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <expand>
@@ -145,38 +176,6 @@
               <item name="location_manager_android" type="e9137016:NonAndroidModuleNode" />
               <item name="kotlin" type="f7eae187:NonAndroidSourceTypeNode" />
               <item name="location_manager" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
-              <item name="android" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
-              <item name="ios" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="location_manager" type="b2602c69:ProjectViewProjectNode" />
-              <item name="location_manager" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -270,7 +269,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576761587858</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Release Version 0.0.1">
+      <created>1578568188771</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1578568188771</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -280,7 +286,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1544" height="1132" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.19107856" />
