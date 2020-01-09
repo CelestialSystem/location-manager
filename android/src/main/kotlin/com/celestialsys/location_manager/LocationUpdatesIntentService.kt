@@ -29,7 +29,7 @@ class LocationUpdatesIntentService : MethodChannel.MethodCallHandler, JobIntentS
 
     companion object {
         @JvmStatic
-        private val JOB_ID = 99997654
+        private val JOB_ID = 98765
         @JvmStatic
         private var backgroundFlutterView: FlutterNativeView? = null
         @JvmStatic
