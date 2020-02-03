@@ -3,9 +3,10 @@
 package com.celestialsys.location_manager
 
 import android.content.Context
+import android.location.Location
 import android.preference.PreferenceManager
 
-
+var LAST_LOCATION : Location ? = null
 const val CALLBACK_DISPATCHER_HANDLE_KEY = "pluginCallDispatcherHandleKey"
 const val LOCATION_UPDATE_HANDLE_KEY = "pluginLocationUpdateHandleKey"
 const val GEOFENCE_EVENT_HANDLE_KEY = "pluginGeofenceEventHandleKey"

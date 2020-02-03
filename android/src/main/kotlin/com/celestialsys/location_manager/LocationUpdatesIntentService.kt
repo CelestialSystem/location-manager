@@ -2,6 +2,7 @@ package com.celestialsys.location_manager
 
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import android.os.Build
 import android.os.Handler
 import android.util.Log
@@ -173,24 +174,31 @@ class LocationUpdatesIntentService : MethodChannel.MethodCallHandler, JobIntentS
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 speedAccuracy = location.speedAccuracyMetersPerSecond
             }
-            val locationMap: HashMap<Any, Any> =
-                    hashMapOf(ARG_LATITUDE to location.latitude,
-                            ARG_LONGITUDE to location.longitude,
-                            ARG_ACCURACY to location.accuracy,
-                            ARG_ALTITUDE to location.altitude,
-                            ARG_SPEED to location.speed,
-                            ARG_SPEED_ACCURACY to speedAccuracy,
-                            ARG_HEADING to location.bearing)
-            Log.e(LocationManagerPlugin.TAG, "Service Location Map: ${locationMap.toString()}")
-            val callback = getLocationUpdateHandle(context)
-            val result: HashMap<Any, Any> = hashMapOf(ARG_LOCATION_UPDATE to callback, ARG_LOCATION to locationMap)
-            synchronized(serviceStarted) {
-                if (!serviceStarted.get()) {
-                    locationUpdateQueue.add(result)
-                } else {
-                    sendLocationEvent(result)
+
+            // Adding Better Location Check
+            if (isBetterLocation(location, LAST_LOCATION)) {
+                val locationMap: HashMap<Any, Any> =
+                        hashMapOf(ARG_LATITUDE to location.latitude,
+                                ARG_LONGITUDE to location.longitude,
+                                ARG_ACCURACY to location.accuracy,
+                                ARG_ALTITUDE to location.altitude,
+                                ARG_SPEED to location.speed,
+                                ARG_SPEED_ACCURACY to speedAccuracy,
+                                ARG_HEADING to location.bearing)
+                Log.e(LocationManagerPlugin.TAG, "Service Location Map: ${locationMap.toString()}")
+                LAST_LOCATION = location
+                val callback = getLocationUpdateHandle(context)
+                val result: HashMap<Any, Any> = hashMapOf(ARG_LOCATION_UPDATE to callback, ARG_LOCATION to locationMap)
+                synchronized(serviceStarted) {
+                    if (!serviceStarted.get()) {
+                        locationUpdateQueue.add(result)
+                    } else {
+                        sendLocationEvent(result)
+                    }
                 }
             }
+
+
         }
     }
 
@@ -200,6 +208,48 @@ class LocationUpdatesIntentService : MethodChannel.MethodCallHandler, JobIntentS
                 .post {
                     backgroundChannel.invokeMethod(ARG_LOCATION_UPDATE, result)
                 }
+    }
+
+
+    @Suppress("PrivatePropertyName")
+    private val ONE_MINUTE: Long = 10000
+
+    private fun isBetterLocation(location: Location, currentBestLocation: Location?): Boolean {
+        if (currentBestLocation == null) {
+            // A new location is always better than no location
+            return true
+        }
+
+        // Check whether the new location fix is newer or older
+        val timeDelta: Long = location.time - currentBestLocation.time
+        val isSignificantlyNewer: Boolean = timeDelta > ONE_MINUTE
+        val isSignificantlyOlder: Boolean = timeDelta < -ONE_MINUTE
+
+        when {
+            // If it's been more than two minutes since the current location, use the new location
+            // because the user has likely moved
+            isSignificantlyNewer -> return true
+            // If the new location is more than two minutes older, it must be worse
+            isSignificantlyOlder -> return false
+        }
+
+        // Check whether the new location fix is more or less accurate
+        val isNewer: Boolean = timeDelta > 0L
+        val accuracyDelta: Float = location.accuracy - currentBestLocation.accuracy
+        val isLessAccurate: Boolean = accuracyDelta > 0f
+        val isMoreAccurate: Boolean = accuracyDelta < 0f
+        val isSignificantlyLessAccurate: Boolean = accuracyDelta > 200f
+
+        // Check if the old and new location are from the same provider
+        val isFromSameProvider: Boolean = location.provider == currentBestLocation.provider
+
+        // Determine location quality using a combination of timeliness and accuracy
+        return when {
+            isMoreAccurate -> true
+            isNewer && !isLessAccurate -> true
+            isNewer && !isSignificantlyLessAccurate && isFromSameProvider -> true
+            else -> false
+        }
     }
 }
 

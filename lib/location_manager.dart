@@ -34,7 +34,8 @@ class LocationManager {
 
   static Future removeGeoFenceUsingId(List<String> ids) async {
     return _foregroundChannel
-        .invokeMethod(Constants.METHOD_PLUGIN_REMOVE_GEOFENCE_USING_ID, {"geofence_ids": ids});
+        .invokeMethod(Constants.METHOD_PLUGIN_REMOVE_GEOFENCE_USING_ID,
+        {"geofence_ids": ids});
   }
 
   static Future<List<String>> getActiveGeoFence() async {
@@ -91,7 +92,9 @@ class Location {
 
   @override
   String toString() {
-    return 'Location{latitude: $latitude, longitude: $longitude, accuracy: $accuracy, altitude: $altitude, speed: $speed, speedAccuracy: $speedAccuracy, heading: $heading}';
+    return 'Location{latitude: $latitude, longitude: $longitude, '
+        'accuracy: $accuracy, altitude: $altitude, speed: $speed, '
+        'speedAccuracy: $speedAccuracy, heading: $heading}';
   }
 }
 
@@ -126,7 +129,8 @@ class GeoFence {
 
   @override
   String toString() {
-    return 'GeoFence{id: $id, latitude: $latitude, longitude: $longitude, radius: $radius}';
+    return 'GeoFence{id: $id, latitude: $latitude, longitude: $longitude, '
+        'radius: $radius}';
   }
 }
 
