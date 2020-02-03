@@ -62,7 +62,15 @@ class LocationUpdatesIntentService : MethodChannel.MethodCallHandler, JobIntentS
             if (backgroundFlutterView == null) {
                 val callbackHandle = getCallbackDispatcherHandle(context)
 
+                if(callbackHandle == null){
+                    return
+                }
+
                 val callbackInfo = FlutterCallbackInformation.lookupCallbackInformation(callbackHandle)
+
+                if(callbackInfo == null){
+                    return
+                }
                 backgroundFlutterView = FlutterNativeView(context, true)
                 val registry = backgroundFlutterView!!.pluginRegistry
                 pluginRegistrantCallback.registerWith(registry)
