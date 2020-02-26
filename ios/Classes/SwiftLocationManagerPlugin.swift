@@ -25,9 +25,13 @@ public class SwiftLocationManagerPlugin: NSObject {
         locationManager?.delegate = self
         locationManager?.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager?.distanceFilter = 0.1
-        locationManager?.showsBackgroundLocationIndicator = false
+        if #available(iOS 11.0, *) {
+            locationManager?.showsBackgroundLocationIndicator = false
+        }
         locationManager?.pausesLocationUpdatesAutomatically = false
-        locationManager?.allowsBackgroundLocationUpdates = true
+        if #available(iOS 9.0, *) {
+            locationManager?.allowsBackgroundLocationUpdates = true
+        }
         self.registrarInstance = registrar
         mainChannel = FlutterMethodChannel(name: Constants.FOREGROUND_CHANNEL_ID, binaryMessenger: (registrar?.messenger())!)
         registrar?.addMethodCallDelegate(self, channel: mainChannel!)
@@ -49,8 +53,10 @@ public class SwiftLocationManagerPlugin: NSObject {
         // with the runner in order for them to work on the background isolate. `registerPlugins` is
         // a callback set from AppDelegate.m in the main application. This callback should register
         // all relevant plugins (excluding those which require UI).
-        registerPlugins?(headlessRunner!)
-        registrarInstance?.addMethodCallDelegate(self, channel: callbackChannel!)
+        if(headlessRunner != nil){
+            registerPlugins?(headlessRunner!)}
+        if(callbackChannel != nil){
+            registrarInstance?.addMethodCallDelegate(self, channel: callbackChannel!)}
     }
     
     private func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
