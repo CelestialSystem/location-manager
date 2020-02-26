@@ -25,13 +25,9 @@ public class SwiftLocationManagerPlugin: NSObject {
         locationManager?.delegate = self
         locationManager?.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager?.distanceFilter = 0.1
-        if #available(iOS 11.0, *) {
-            locationManager?.showsBackgroundLocationIndicator = false
-        } 
+        locationManager?.showsBackgroundLocationIndicator = false
         locationManager?.pausesLocationUpdatesAutomatically = false
-        if #available(iOS 9.0, *) {
-            locationManager?.allowsBackgroundLocationUpdates = true
-        }
+        locationManager?.allowsBackgroundLocationUpdates = true
         self.registrarInstance = registrar
         mainChannel = FlutterMethodChannel(name: Constants.FOREGROUND_CHANNEL_ID, binaryMessenger: (registrar?.messenger())!)
         registrar?.addMethodCallDelegate(self, channel: mainChannel!)
